@@ -6,6 +6,8 @@
 	#define SYS_CLOCK_FREQ_MHZ 96
 #elif defined(STM32F303xC)
 	#define SYS_CLOCK_FREQ_MHZ 72
+#elif defined(STM32F401xx)
+	#define SYS_CLOCK_FREQ_MHZ 84
 #else
 	#error "Unknown MCU"
 #endif

@@ -58,8 +58,10 @@ static float _custom_pidkd[] = ACRO_D;
 void silverlite_init(void)
 {
     console_init();
+#if !defined(CUSTOMF01)
     osd_init();
     update_osd();
+#endif
 
     // Update acro PID terms
     for (int i=0; i<3; i++)
@@ -248,6 +250,7 @@ bool silverlite_update()
     // Compute total elapsed milliseconds
     uint32_t ms =  osd_ticks++ / (1000 / LOOPTIME);
 
+#if !defined(CUSTOMF01)
     // Every 10th of a second (100ms) we'll update the osd
     if (0 == (ms % 100))
     {
@@ -261,6 +264,7 @@ bool silverlite_update()
         // and therefore shouldn't be considered
         return false;
     }
+#endif
     return true;
 }
 

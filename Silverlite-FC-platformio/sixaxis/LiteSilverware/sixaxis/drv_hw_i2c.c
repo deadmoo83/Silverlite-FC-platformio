@@ -109,7 +109,7 @@ extern int liberror;
 
 void hw_i2c_init( void)
 {
-
+/*
 GPIO_InitTypeDef gpioinitI2C1;
 
 gpioinitI2C1.GPIO_Mode = GPIO_Mode_AF;
@@ -180,9 +180,13 @@ initI2C1.I2C_Ack = I2C_Ack_Enable;
 initI2C1.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
 
 I2C_Init(I2C1, &initI2C1);
-I2C_Cmd(I2C1, ENABLE);  
-	
+I2C_Cmd(I2C1, ENABLE);
+*/
+
+MX_I2C1_Init();
+
 }
+
 
 //#define I2C_TIMEOUT 50000
 //#define I2C_CONDITION i2c_timeout > I2C_TIMEOUT

@@ -48,6 +48,15 @@ static Pin<'A', 5>		SPI_SCK;	// PA5
 static Pin<'A', 6>		SPI_MISO;	// PA6
 static Pin<'A', 7>		SPI_MOSI;	// PA7
 
+#elif defined(CUSTOMF401)
+//------------------------------------------------------------------------------
+// CUSTOMF401 doesn't have OSD, dummy values
+//
+static Pin<'C', 13>		OSD_CS_Pin;	// PC13
+static Pin<'C', 13>		SPI_SCK;	// PC13
+static Pin<'C', 13>		SPI_MISO;	// PC13
+static Pin<'C', 13>		SPI_MOSI;	// PC13
+
 #else
     #error "Unknown hardware, cannot support OSD"
 #endif

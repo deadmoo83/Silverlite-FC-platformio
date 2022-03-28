@@ -27,10 +27,12 @@ THE SOFTWARE.
 #include "binary.h"
 #include "sixaxis.h"
 #include "drv_time.h"
-#include "util.h"
+//#include "util.h"
+#include "filter.h"
 #include "defines.h"
-#include "led.h"
-#include "drv_serial.h"
+//#include "led.h"
+#include "drv_led.h"
+//#include "drv_serial.h"
 #include "drv_i2c.h"
 
 #include <math.h>

@@ -151,7 +151,9 @@
 
 // Specifies the voltage threshold for when low battery warning occurs
 // Comment this out if you wish to disable this feature
+#if !defined(CUSTOMF401)
 #define WARN_ON_LOW_BATTERY 3.5
+#endif
 
 // Lower throttle when battery below threshold
 // Comment this out if you wish to disable this feature
@@ -208,6 +210,9 @@
     #define RPM_FILTER
     #define LOOPTIME    250     
 #elif defined(OMNIBUSF4)
+    #define RPM_FILTER
+    #define LOOPTIME    250
+#elif defined(CUSTOMF401)
     #define RPM_FILTER
     #define LOOPTIME    250
 #elif defined(OMNIBUS)
@@ -353,6 +358,9 @@
 #elif defined(CRAZYBEEF3FS)
     // MPU on CRAZYBEEF3FS is already correctly oriented
     // so no adjustments necessary
+#elif defined(CUSTOMF401)
+    // MPU on CUSTOMF401 is already correctly oriented
+    // so no adjustments necessary
 #else
     #error "Unsupported flight controller target. Define mpu orientation here"
 #endif
@@ -382,6 +390,12 @@
     #define MOTOR_BR 1
     #define MOTOR_FR 2
 #elif defined(CRAZYBEEF3FS)
+    // This is verified to be correct
+    #define MOTOR_BL 3
+    #define MOTOR_FL 4
+    #define MOTOR_BR 1
+    #define MOTOR_FR 2
+#elif defined(CUSTOMF401)
     // This is verified to be correct
     #define MOTOR_BL 3
     #define MOTOR_FL 4
