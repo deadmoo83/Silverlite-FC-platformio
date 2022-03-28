@@ -1,3 +1,12 @@
 [submodule "Silverlite-FC"]
 	path = Silverlite-FC
 	url = https://github.com/sakitume/SilverLite-FC.git
+[submodule "LiteSilverware"]
+	path = LiteSilverware
+	url = https://github.com/BETAFPV/LiteSilverware.git
+[submodule "NFE_Silverware"]
+	path = NFE_Silverware
+	url = https://github.com/NotFastEnuf/NFE_Silverware.git
+[submodule "SilF4ware"]
+	path = SilF4ware
+	url = https://github.com/markusgritsch/SilF4ware.git
