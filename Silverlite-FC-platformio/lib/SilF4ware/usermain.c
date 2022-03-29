@@ -38,6 +38,10 @@ void usermain()
 	ledoff();
 	delay( 1000 );
 
+#if defined(CUSTOMF401)
+	hw_i2c_init();
+#endif
+
 	time_init();
 	pwm_init(); // For legacy reasons it's called pwm even in the Dshot driver.
 	sixaxis_init();

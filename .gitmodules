@@ -4,9 +4,12 @@
 [submodule "LiteSilverware"]
 	path = LiteSilverware
 	url = https://github.com/BETAFPV/LiteSilverware.git
-[submodule "NFE_Silverware"]
-	path = NFE_Silverware
-	url = https://github.com/NotFastEnuf/NFE_Silverware.git
 [submodule "SilF4ware"]
 	path = SilF4ware
 	url = https://github.com/markusgritsch/SilF4ware.git
+[submodule "QUICKSILVER"]
+	path = QUICKSILVER
+	url = https://github.com/BossHobby/QUICKSILVER.git
+[submodule "NFE_QUICKSILVER"]
+	path = NFE_QUICKSILVER
+	url = https://github.com/NotFastEnuf/NFE_QUICKSILVER.git

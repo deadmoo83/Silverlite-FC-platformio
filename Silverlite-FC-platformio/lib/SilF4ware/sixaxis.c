@@ -4,7 +4,11 @@
 #include "binary.h"
 #include "config.h"
 #include "drv_led.h"
+#if defined(CUSTOMF401)
+#include "drv_hw_i2c.h"
+#else
 #include "drv_mpu.h"
+#endif
 #include "drv_time.h"
 #include "filter.h"
 #include "sixaxis.h"
@@ -25,6 +29,38 @@ static void process_gyronew_to_gyro( float gyronew[] ); // To avoid code duplica
 
 void sixaxis_init( void )
 {
+#if defined(CUSTOMF401)
+// gyro soft reset
+	
+	hw_i2c_writereg( I2C_GYRO_ADDRESS, 107 , 128);
+	 
+    delay(40000);
+    hw_i2c_writereg( I2C_GYRO_ADDRESS,25 , 0);
+// set pll to 1, clear sleep bit old type gyro (mpu-6050)	
+	hw_i2c_writereg( I2C_GYRO_ADDRESS, 107 , 0x03);
+	hw_i2c_writereg( I2C_GYRO_ADDRESS,55 , 0 << 7 | 0 << 6 | 0 << 5 | 0 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
+	int newboard = !(0x68 == hw_i2c_readreg(I2C_GYRO_ADDRESS,117) );
+
+    delay(100);
+    
+    // Gyro DLPF low pass filter
+	hw_i2c_writereg( I2C_GYRO_ADDRESS,26 , GYRO_LOW_PASS_FILTER);
+    
+	hw_i2c_writereg( I2C_GYRO_ADDRESS, 28, B00010000);	// 8G scale
+
+    
+// acc lpf for the new gyro type
+//       0-6 ( same as gyro)
+	if (newboard) hw_i2c_writereg(I2C_GYRO_ADDRESS, 29, ACC_LOW_PASS_FILTER);
+	
+// gyro scale 1000 deg (FS =2)
+
+	hw_i2c_writereg( I2C_GYRO_ADDRESS,27 , B00010000);
+    
+ //SMPLRT_DIV = 1, gyro_sample_rate = 8kHz/(1+ SMPLRT_DIV) = 8/2 kHz = 4kHz
+ // for Gyro with i2c protocol, use 4KHz, for SPI protocol use 8KHz.
+#else
+
 	spi_mpu_csoff();
 	delay( 1 );
 
@@ -32,7 +68,6 @@ void sixaxis_init( void )
 	// mpu_writereg( 107, 128 );
 
 	delay( 40000 ); // 30 ms gyro start up time, 10 ms PLL settling time
-
 	// disable I2C
 	mpu_writereg( 106, 0x10 );
 
@@ -67,6 +102,7 @@ void sixaxis_init( void )
 
 	// Gyro DLPF low pass filter
 	mpu_writereg( 26, GYRO_LOW_PASS_FILTER );
+#endif
 }
 
 float bb_accel[ 3 ];
@@ -83,12 +119,15 @@ int calibration_done;
 void sixaxis_read( void )
 {
 	uint32_t data[ 14 ];
+#if defined(CUSTOMF401)
+	hw_i2c_readdata(I2C_GYRO_ADDRESS, 59 , data , 6 );
+#else
 	mpu_readdata( 59, data, 14 );
+#endif
 
 	accel[ 0 ] = -(int16_t)( ( data[ 0 ] << 8 ) + data[ 1 ] );
 	accel[ 1 ] = -(int16_t)( ( data[ 2 ] << 8 ) + data[ 3 ] );
 	accel[ 2 ] = (int16_t)( ( data[ 4 ] << 8 ) + data[ 5 ] );
-
 	// remove bias
 	accel[ 0 ] = accel[ 0 ] - accelcal[ 0 ];
 	accel[ 1 ] = accel[ 1 ] - accelcal[ 1 ];
@@ -176,7 +215,12 @@ void sixaxis_read( void )
 void gyro_read( void )
 {
 	uint32_t data[ 6 ];
+#if defined(CUSTOMF401)
+	hw_i2c_readdata( I2C_GYRO_ADDRESS,67 , data , 6 );
+#else
 	mpu_readdata( 67, data, 6 );
+#endif
+
 
 	float gyronew[ 3 ];
 	// order
@@ -310,7 +354,11 @@ void gyro_cal( void )
 
 	// 2.5 and 15 seconds
 	while ( time - timestart < CAL_TIME && time - timemax < 15e6f ) {
+#if defined(CUSTOMF401)
+		hw_i2c_readdata( I2C_GYRO_ADDRESS, 67 , data , 6 );	
+#else
 		mpu_readdata( 67, data, 6 );
+#endif
 
 		gyro_data[ 1 ] = (int16_t)( ( data[ 0 ] << 8 ) + data[ 1 ] );
 		gyro_data[ 0 ] = (int16_t)( ( data[ 2 ] << 8 ) + data[ 3 ] );
@@ -365,7 +413,11 @@ void acc_cal( void )
 	accelcal[ 2 ] = 2048;
 	for ( int i = 0; i < 100; ++i ) {
 		uint32_t data[ 6 ];
+#if defined(CUSTOMF401)
+		hw_i2c_readdata(I2C_GYRO_ADDRESS, 59 , data , 6 );
+#else
 		mpu_readdata( 59, data, 6 );
+#endif
 
 		accel[ 0 ] = -(int16_t)( ( data[ 0 ] << 8 ) + data[ 1 ] );
 		accel[ 1 ] = -(int16_t)( ( data[ 2 ] << 8 ) + data[ 3 ] );
