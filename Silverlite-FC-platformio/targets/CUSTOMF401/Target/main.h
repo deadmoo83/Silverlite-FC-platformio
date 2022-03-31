@@ -59,6 +59,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED_Pin GPIO_PIN_13
 #define LED_GPIO_Port GPIOC
+#define VOLTAGE_DIVIDER_Pin GPIO_PIN_1
+#define VOLTAGE_DIVIDER_GPIO_Port GPIOA
 #define SPI_XN_SS_Pin GPIO_PIN_4
 #define SPI_XN_SS_GPIO_Port GPIOA
 #define SPI_CLK_Pin GPIO_PIN_5
@@ -71,10 +73,10 @@ void Error_Handler(void);
 #define ESC3_GPIO_Port GPIOB
 #define ESC4_Pin GPIO_PIN_1
 #define ESC4_GPIO_Port GPIOB
-#define ESC1_Pin GPIO_PIN_11
-#define ESC1_GPIO_Port GPIOA
-#define ESC2_Pin GPIO_PIN_12
+#define ESC2_Pin GPIO_PIN_9
 #define ESC2_GPIO_Port GPIOA
+#define ESC1_Pin GPIO_PIN_10
+#define ESC1_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

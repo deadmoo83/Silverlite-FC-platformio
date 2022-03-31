@@ -26,45 +26,43 @@ THE SOFTWARE.
 #include "main.h"
 #include "drv_hw_i2c.h"
 
-I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c1;
 
-void hw_i2c_init( void)
+void hw_i2c_init(void)
 {
 	extern void MX_I2C1_Init(void);
 	MX_I2C1_Init();
 }
 
 
-void hw_i2c_writereg(int address, int reg ,int data)
+void hw_i2c_writereg(uint8_t address, uint8_t reg, uint8_t data)
 {
 	uint8_t d[2];
-	d[0] = (uint8_t)reg;
-	d[1] = (uint8_t)data;
+	d[0] = reg;
+	d[1] = data;
 
 	while(HAL_I2C_Master_Transmit(&hi2c1, (uint16_t)address<<1, d, 2, HAL_MAX_DELAY)!=HAL_OK);
 }
 
 
-int hw_i2c_readdata(int address, int reg, uint32_t *data, int size )
+void hw_i2c_readdata(uint8_t address, uint8_t reg, uint32_t data[], uint8_t size )
 {
 	uint8_t d[size];
 
 	while(HAL_I2C_Master_Transmit(&hi2c1, (uint16_t)address<<1, (uint8_t *)&reg, 1, HAL_MAX_DELAY)!=HAL_OK);
 	while(HAL_I2C_Master_Receive(&hi2c1, (uint16_t)address<<1, d, size, HAL_MAX_DELAY)!=HAL_OK);
-	for(uint8_t i = 0; i<size; i++)
+	for(uint8_t i = 0; i < size; i++)
 	{
-		data[i] = (int)d[i];
+		data[i] = (uint32_t)d[i];
 	}
-
-	return 1;
 }
 
 
-int hw_i2c_readreg(int address, int reg )
+uint8_t hw_i2c_readreg(uint8_t address, uint8_t reg )
 {
-	int data;
+	uint32_t data;
 	hw_i2c_readdata(address, reg, &data, 1 );
-	return data;
+	return (uint8_t)data;
 }
 
 

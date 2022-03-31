@@ -22,6 +22,10 @@
 #include "silverlite.h"
 #endif
 
+#if defined(CUSTOMF401)
+#include "drv_hw_i2c.h"
+#endif
+
 float looptime; // in seconds
 uint32_t lastlooptime;
 uint32_t used_loop_time;
