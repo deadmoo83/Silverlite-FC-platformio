@@ -81,8 +81,8 @@ static Pin<'B', 10>	    SPI_MISO;	    // PB10		DSM/IBUS/PPM
 // 4-wire SPI pin configuration for CUSTOMF401 target
 static Pin<'A', 4>		TRX_CS_PIN;	    // PA4
 static Pin<'A', 5>		SPI_SCK;	    // PA5
-static Pin<'A', 6>	    SPI_MOSI;	    // PA6
-static Pin<'A', 7>	    SPI_MISO;	    // PA7
+static Pin<'A', 6>	    SPI_MISO;	    // PA6
+static Pin<'A', 7>	    SPI_MOSI;	    // PA7
 #endif
 
 #if defined(TRX_LT8900)
